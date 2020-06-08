@@ -11,3 +11,9 @@ Ponto Principal de início: definir a sintaxe de correspondência entre Assembly
 <h2>Diagrama do Interpretador</h2>
 
 ![](Images/interpretadorMIPS.png)
+
+<h2>Ciclo de Execução</h2>
+
+![](Images/CicloExecuçãoMips.png)
+
+
