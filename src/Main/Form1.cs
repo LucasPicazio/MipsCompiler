@@ -87,5 +87,11 @@ namespace Main
         {
             tbRegi4.Text = text;
         }
+
+        public void ShowMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
+
     }
 }

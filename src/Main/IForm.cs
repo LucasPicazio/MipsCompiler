@@ -1,7 +1,6 @@
 ﻿using Main.Model;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Main
 {
@@ -16,6 +15,6 @@ namespace Main
         void SetRegi2(string text);
         void SetRegi3(string text);
         void SetRegi4(string text);
-
+        void ShowMessage(string message);
     }
 }
