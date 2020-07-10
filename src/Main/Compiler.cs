@@ -1,27 +1,27 @@
 ﻿using Main.Model;
-using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Main
 {
     class Compiler
     {
         public IForm View { get; internal set; }
+        public ExternalMemory Memory { get; internal set; }
 
         internal void Initialize()
         {
             View.OnPlay += View_OnPlay;
+            Memory = new ExternalMemory();
         }
 
         private void View_OnPlay(object sender, EventArgs e)
         {
             var ass = View.Assembly;
             var result = MipsToBinary(ass);
+            Memory.ReceiveAssemblyProgram(result);
         }
 
         private List<BitArray> MipsToBinary(List<Command> ass)

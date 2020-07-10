@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Main
 {
-    internal interface IForm
+    public interface IForm
     {
         event EventHandler OnPlay;
         event EventHandler OnNext;
