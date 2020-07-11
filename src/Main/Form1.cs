@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Main
 {
-    public partial class Form1 : Form ,IForm
+    public partial class Form1 :Form, IForm
     {
         public event EventHandler OnPlay;
         public event EventHandler OnNext;
@@ -36,6 +36,7 @@ namespace Main
                 }
                 return commands;
             }
+
             set
             {
                 throw new NotImplementedException();

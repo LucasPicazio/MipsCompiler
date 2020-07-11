@@ -229,6 +229,7 @@
             this.button1.Size = new System.Drawing.Size(94, 29);
             this.button1.TabIndex = 3;
             this.button1.Text = "Play";
+            this.toolTip2.SetToolTip(this.button1, "Compila e Executa (F5)");
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -241,10 +242,6 @@
             this.button2.Text = "Next";
             this.toolTip1.SetToolTip(this.button2, "Próximo comando (F10)");
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // toolTip2
-            // 
-            this.toolTip2.SetToolTip(button1, "Compila e Executa (F5)");
             // 
             // Form1
             // 
