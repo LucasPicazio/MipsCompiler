@@ -9,7 +9,6 @@ namespace Main
         public static BitArray ExternalBus { get; set; }
         private static List<BitArray> MemoryAddress { get; set; }
         private int _targetAddress { get; set; }
-        private int AssemblyCmdCount { get; set; }
         private int ReadSignal { get; set; }
         private int WriteSignal { get; set; }
 
@@ -21,7 +20,6 @@ namespace Main
         public void ReceiveAssemblyProgram(List<BitArray> binaryAssembly)
         {
             MemoryAddress = new List<BitArray>(binaryAssembly);
-            AssemblyCmdCount = binaryAssembly.Count;
         }
 
         public void ReceiveControlSignal(int readSign = 0, int writeSign = 0)
@@ -62,17 +60,7 @@ namespace Main
 
         private void GetAddressValueFromBus()
         {
-            _targetAddress = GetIntFromBitArray(ExternalBus) + AssemblyCmdCount;
-        }
-
-        private int GetIntFromBitArray(BitArray bitArray)
-        {
-            if (bitArray.Length > 32)
-                throw new ArgumentException("Argument length shall be at most 32 bits.");
-
-            int[] array = new int[1];
-            bitArray.CopyTo(array, 0);
-            return array[0];
+            _targetAddress = ExternalBus.GetIntFromBitArray();
         }
     }
 }

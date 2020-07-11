@@ -55,15 +55,21 @@ namespace Main
             char[] instArray = microInstruction.ToCharArray();
             if (InstructionIsValid(instArray))
             {
+                SendControlSignal(instArray);
                 SendPortSignal(instArray);
             }
         }
 
+        private void SendControlSignal(char[] instArray)
+        {
+            throw new NotImplementedException();
+        }
+
         private void SendPortSignal(char[] instArray)
         {
-            //Write
+            //Write First
             ReadOrWriteIntoBus(instArray, 0);
-            //Read
+            //Read Later
             ReadOrWriteIntoBus(instArray, 1);
         }
 
@@ -100,12 +106,12 @@ namespace Main
 
         public void SetDataIntoExternalBus()
         {
-            ExternalMemory.ExternalBus = GetBitArrayFromString(MemoryBufferRegister.GetValue());
+            ExternalMemory.ExternalBus = MemoryBufferRegister.GetValue().GetBitArrayFromString();
         }
 
         public void SetAddressIntoExternalBus()
         { 
-            ExternalMemory.ExternalBus = GetBitArrayFromString(MemoryAddressRegister.GetValue());
+            ExternalMemory.ExternalBus = MemoryAddressRegister.GetValue().GetBitArrayFromString();
         }
 
         private bool InstructionIsValid(char[] instArray)
@@ -140,9 +146,5 @@ namespace Main
             return true;
         }
 
-        private BitArray GetBitArrayFromString(string str)
-        {
-            return new BitArray(str.Select(c => c == '1').ToArray());
-        }
     }
 }
