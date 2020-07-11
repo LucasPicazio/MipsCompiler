@@ -18,6 +18,7 @@ namespace Main.Model
         BNE = 4,
         J = 2,
         SLT = 42,
-        ADDI = 8  
+        ADDI = 8,
+        FETCH = 77
     }
 }
