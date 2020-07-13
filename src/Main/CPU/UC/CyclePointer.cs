@@ -26,7 +26,6 @@ namespace Main.CPU
             {
                 IsEndOfCycle = true;
                 IsFetchCycle = !IsFetchCycle;
-                Clock = 0;
             }
             return nextLine;
         }

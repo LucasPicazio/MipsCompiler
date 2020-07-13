@@ -13,7 +13,7 @@ namespace Main
         private ComputerUnit Cpu { get; set; }
         private CycleDictionary Firmware;
         private CyclePointer CAR;
-        private string CBR;
+        private Instruction CBR;
         private string NextInstruction;
 
         public void Initialize()
@@ -33,13 +33,33 @@ namespace Main
         private void View_OnNext(object sender, EventArgs e)
         {
             View.HighLightLine(new Command { CharInit = 0, CharEnd = 8 });
+            CheckForJumpFlags();
             GetNextFirmwareLine();
-            Cpu.ReceiveControlSignal(CBR);
+            Cpu.ReceiveControlSignal(CBR.ControlSignalInstruction);
+        }
+
+        private void CheckForJumpFlags()
+        {
+            if(!CBR.JumpIfZero && !CBR.JumpIfLessThan && !CBR.JumpIfDifferent)
+            {
+                return;
+            }
+
+            if ( (CBR.JumpIfZero && Cpu.ULA.ZeroFlag) || 
+                (CBR.JumpIfLessThan && Cpu.ULA.SignalFlag) || 
+                (CBR.JumpIfDifferent && !Cpu.ULA.ZeroFlag) )
+            {
+                return;
+            }
+
+            GetNextCycle();
+
         }
 
         private void GetNextFirmwareLine()
         {
-            CBR = CAR.AccessNextCycleLine();
+            var nextInstruction = CAR.AccessNextCycleLine();
+            CBR.SetControlSignalInstruction(nextInstruction);
             if (CAR.IsEndOfCycle)
             {
                 GetNextCycle();
@@ -48,7 +68,7 @@ namespace Main
 
         private void GetNextCycle()
         {
-            if (CAR.IsFetchCycle)
+            if (!CAR.IsFetchCycle)
             {
                 CAR.CurrentCycle = Firmware.Cycle[OperationEnum.FETCH];
             }
@@ -56,6 +76,8 @@ namespace Main
             {
                 CAR.CurrentCycle = Firmware.Cycle[DecodeOpCode()];
             }
+            CAR.Clock = 0;
+            CBR.ResetJumpFlags();
         }
 
         private OperationEnum DecodeOpCode()

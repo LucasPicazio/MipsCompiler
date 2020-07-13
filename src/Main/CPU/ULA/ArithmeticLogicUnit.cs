@@ -10,8 +10,8 @@ namespace Main.ULA
         private readonly ComputerUnit _CPU;
         private Tuple<int, int> mapOutput;
         private Tuple<int, int, int> mapInput;
-        public int ZeroFlag;
-        public int SignalFlag;
+        public bool ZeroFlag;
+        public bool SignalFlag;
 
         public ArithmeticLogicUnit(ComputerUnit CPU)
         {
@@ -51,19 +51,23 @@ namespace Main.ULA
 
         public void Compare()
         {
+            ZeroFlag = false;
+            SignalFlag = false;
             int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
             int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
-            SignalFlag = result[0];
+            SignalFlag = (result[0] == 1);
 
             foreach (int i in result)
             {
-                if(result[i] == 1)
+                if (!ZeroFlag)
                 {
-                    ZeroFlag = 0;
+                    ZeroFlag = (result[i] == 1);
+                }
+                else
+                {
                     return;
                 }
             }
-            ZeroFlag = 1;
         }
 
         private int[] GetSumResult(string firtOp, string secondOp)
