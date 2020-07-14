@@ -20,25 +20,29 @@ namespace Main.ULA
             _CPU = CPU;
         }
 
-        public void ReceiveOpCode(string value)
+        public void ReceiveOpCode(char[] value)
         {
-            opCode = value;
+            opCode = new string(value);
         }
 
         public void GetValueFromIBus()
         {
+            ZeroFlag = false;
+            SignalFlag = false;
             operationMapping.delegateOperationMapping[opCode]();
         }
 
         public void Increment()
         {
             int[] result = GetSumResult(ComputerUnit.InternalBus, binaryRepresentationOfOne);
+            UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
         }
 
         public void Sum()
         {
             int[] result = GetSumResult(ComputerUnit.InternalBus, _CPU.ULAXRegister.GetValue());
+            UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
         }
 
@@ -46,15 +50,12 @@ namespace Main.ULA
         {
             int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
             int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
+            UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
         }
 
-        public void Compare()
+        public void UpdateFlags(int[] result)
         {
-            ZeroFlag = false;
-            SignalFlag = false;
-            int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
-            int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
             SignalFlag = (result[0] == 1);
 
             foreach (int i in result)

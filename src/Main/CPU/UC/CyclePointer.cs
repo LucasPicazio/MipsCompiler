@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Main.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,13 +9,14 @@ namespace Main.CPU
     {
         public int Clock { get; set; }
         public string[] CurrentCycle { get; set; }
+        public OperationEnum CurrentCycleEnum { get; set; }
         public bool IsEndOfCycle { get; private set; }
         public bool IsFetchCycle { get; private set; }
-        public CyclePointer(int address, string[] cycle)
+        public CyclePointer(int address, string[] cycle, bool isFetchCycle)
         {
             this.Clock = address;
             this.CurrentCycle = cycle;
-            IsFetchCycle = true;
+            IsFetchCycle = isFetchCycle;
         }
 
         

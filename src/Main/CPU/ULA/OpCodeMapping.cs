@@ -17,8 +17,7 @@ namespace Main.ULA
                 {
                     { "001", _ULA.Increment},
                     { "010", _ULA.Sum},
-                    { "011", _ULA.Subtract},
-                    { "100", _ULA.Compare }
+                    { "011", _ULA.Subtract}
                 };
 
             BitSumResultMap = new Dictionary<Tuple<int, int, int>, Tuple<int, int>>()

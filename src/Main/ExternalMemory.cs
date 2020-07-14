@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Main.Model;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace Main
     public class ExternalMemory
     {
         public static BitArray ExternalBus { get; set; }
-        private static List<BitArray> MemoryAddress { get; set; }
+        private static List<Command> MemoryAddress { get; set; }
         private int _targetAddress { get; set; }
         private int ReadSignal { get; set; }
         private int WriteSignal { get; set; }
@@ -17,9 +18,9 @@ namespace Main
             ExternalBus = new BitArray(32);
         }
 
-        public void ReceiveAssemblyProgram(List<BitArray> binaryAssembly)
+        public void ReceiveAssemblyProgram(List<Command> binaryAssembly)
         {
-            MemoryAddress = new List<BitArray>(binaryAssembly);
+            MemoryAddress = new List<Command>(binaryAssembly);
         }
 
         public void ReceiveControlSignal(int readSign = 0, int writeSign = 0)
@@ -50,17 +51,18 @@ namespace Main
 
         private void InsertDataValueIntoBus()
         {
-            ExternalBus = MemoryAddress[_targetAddress];
+            ExternalBus = MemoryAddress[_targetAddress].Bits;
         }
 
         private void GetDataValueFromBus()
         {
-            MemoryAddress[_targetAddress] = ExternalBus;
+            MemoryAddress[_targetAddress].Bits = ExternalBus;
         }
 
         private void GetAddressValueFromBus()
         {
             _targetAddress = ExternalBus.GetIntFromBitArray();
         }
+
     }
 }

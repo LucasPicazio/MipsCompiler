@@ -9,6 +9,7 @@ namespace Main
 {
     public class UC
     {
+        // SeqLogic > CAR (Address) > firmware > CBR (Command) > SeqLogic
         public IForm View { get; internal set; }
         private ComputerUnit Cpu { get; set; }
         private CycleDictionary Firmware;
@@ -22,7 +23,8 @@ namespace Main
             Firmware = new CycleDictionary();
             Cpu = new ComputerUnit(this);
             Cpu.Initialize();
-            CAR = new CyclePointer(0, Firmware.Cycle[OperationEnum.FETCH]);
+            CAR = new CyclePointer(0, Firmware.Cycle[OperationEnum.FETCH], true);
+            CBR = new Instruction();
         }
 
         public void ReceiveInstructionRegister(string instructionRegister)
@@ -35,7 +37,42 @@ namespace Main
             View.HighLightLine(new Command { CharInit = 0, CharEnd = 8 });
             CheckForJumpFlags();
             GetNextFirmwareLine();
-            Cpu.ReceiveControlSignal(CBR.ControlSignalInstruction);
+            SendControlSignal();
+        }
+
+        private void SendControlSignal()
+        {
+            var instruct = CBR.ControlSignalInstruction;
+            if (CBR.DecodeRegister1 || CBR.DecodeRegister2 || CBR.DecodeRegister3)
+            {
+                SetControlToInstructionFormat(instruct);
+            }
+            Cpu.ReceiveControlSignal(instruct);
+        }
+
+        private void SetControlToInstructionFormat(string instruct)
+        {
+            switch (Cpu.CurrentInstructFormat)
+            {
+                // Register Format
+                case 1:
+                    SetRegisterFormat(instruct);
+                    break;
+                // Imediate Format
+                case 2:
+                    SetImediateFormat(instruct);
+                    break;
+            }
+        }
+
+        private void SetRegisterFormat(string instruct)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetImediateFormat(string instruct)
+        {
+            throw new NotImplementedException();
         }
 
         private void CheckForJumpFlags()
@@ -70,14 +107,18 @@ namespace Main
         {
             if (!CAR.IsFetchCycle)
             {
+                CAR.CurrentCycleEnum = OperationEnum.FETCH;
                 CAR.CurrentCycle = Firmware.Cycle[OperationEnum.FETCH];
             }
             else
             {
-                CAR.CurrentCycle = Firmware.Cycle[DecodeOpCode()];
+                var op = DecodeOpCode();
+                CAR.CurrentCycleEnum = op;
+                CAR.CurrentCycle = Firmware.Cycle[op];
             }
+
             CAR.Clock = 0;
-            CBR.ResetJumpFlags();
+            CBR.ResetFlags();
         }
 
         private OperationEnum DecodeOpCode()
@@ -86,6 +127,5 @@ namespace Main
             return (OperationEnum) opCode.GetIntFromBitArray();
         }
 
-        // SeqLogic > CAR (Address) > firmware > CBR (Command) > SeqLogic
     }
 }

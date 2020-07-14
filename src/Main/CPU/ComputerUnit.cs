@@ -25,8 +25,10 @@ namespace Main
         public ArithmeticLogicUnit ULA;
         public ExternalMemory Memory;
         public readonly UC ControlUnit;
+        public int CurrentInstructFormat;
         private PortSignalMapping PortMapping;
-        private readonly int InternalControlPortNumber = 20;
+        private readonly int InternalControlPortNumberLimit = 20;
+        private readonly int ExternalControlPortNumberLimit = 25;
 
         public ComputerUnit(UC controlUnit)
         {
@@ -62,32 +64,41 @@ namespace Main
 
         private void SendControlSignal(char[] instArray)
         {
-            throw new NotImplementedException();
+            ULA.ReceiveOpCode(instArray[ExternalControlPortNumberLimit..(ExternalControlPortNumberLimit+2)]);
+            Memory.ReceiveControlSignal((instArray[ExternalControlPortNumberLimit+3] - '0'), (instArray[ExternalControlPortNumberLimit+4] - '0'));
         }
 
         private void SendPortSignal(char[] instArray)
         {
             //Write First
-            ReadOrWriteIntoBus(instArray, 0);
-            //Read Later
-            ReadOrWriteIntoBus(instArray, 1);
+            ReadOrWriteIntoBus(instArray, 0, InternalControlPortNumberLimit);
+            //Read After
+            ReadOrWriteIntoBus(instArray, 1, InternalControlPortNumberLimit);
+
+            ReadAndWriteIntoExternalBus(instArray);
         }
 
-        private void ReadOrWriteIntoBus(char[] instArray, int startingIndex)
+        private void ReadAndWriteIntoExternalBus(char[] instArray)
         {
-            for (int i = startingIndex; i < InternalControlPortNumber; i += 2)
+
+            //Write First
+            ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit, ExternalControlPortNumberLimit);
+
+            //Read After
+            ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit+1, ExternalControlPortNumberLimit);
+        }
+
+        private void ReadOrWriteIntoBus(char[] instArray, int startingIndex, int endIndex)
+        {
+            for (int i = startingIndex; i < endIndex; i += 2)
             {
-                if (instArray[i] - '0' != 0)
+                if (instArray[i] - '0' != 0 )
                 {
                     PortMapping.delegateRegisterMapping[i]();
                 }
             }
         }
 
-        public void FeedControlUnit()
-        {
-            ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetValue());
-        }
 
         // Saber dividir o conteúdo dos Operadores dependento do format da operação
         public void GetInstructionFromInternalBus()
@@ -97,6 +108,10 @@ namespace Main
             InstructionRegisterOp2.SetValue(InstructionRegister.GetValue().Substring(11, 5));
             InstructionRegisterOp3.SetValue(InstructionRegister.GetValue().Substring(16, 5));
             FeedControlUnit();
+        }
+        public void FeedControlUnit()
+        {
+            ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetValue());
         }
 
         public void GetDataFromExternalBus()
@@ -123,7 +138,7 @@ namespace Main
         private bool CheckForInternalPortIndex(char[] instArray)
         {
             int busWrittingIndex = -1;
-            for (int i = 0; i <= InternalControlPortNumber; i += 2)
+            for (int i = 0; i <= InternalControlPortNumberLimit; i += 2)
             {
                 if (instArray[i] - '0' != 0 && busWrittingIndex == -1)
                 {
