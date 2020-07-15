@@ -1,4 +1,5 @@
-﻿using Main.ULA;
+﻿using Main.Model;
+using Main.ULA;
 using System;
 using System.Collections;
 using System.Linq;
@@ -9,9 +10,9 @@ namespace Main
     {
         public static string InternalBus { get; set; }
         public Register InstructionRegister;
-        public Register InstructionRegisterOp1;
-        public Register InstructionRegisterOp2;
-        public Register InstructionRegisterOp3;
+        public Register InstructionRegisterOpSource1;
+        public Register InstructionRegisterOpSource2;
+        public Register InstructionRegisterOpDestiny;
         public Register MemoryAddressRegister;
         public Register ProgramCounter;
         public Register MemoryBufferRegister;
@@ -25,7 +26,7 @@ namespace Main
         public ArithmeticLogicUnit ULA;
         public ExternalMemory Memory;
         public readonly UC ControlUnit;
-        public int CurrentInstructFormat;
+        public char CurrentInstructFormat;
         private PortSignalMapping PortMapping;
         private readonly int InternalControlPortNumberLimit = 20;
         private readonly int ExternalControlPortNumberLimit = 25;
@@ -104,11 +105,36 @@ namespace Main
         public void GetInstructionFromInternalBus()
         {
             InstructionRegister.GetValueFromIBus();
-            InstructionRegisterOp1.SetValue(InstructionRegister.GetValue().Substring(6, 5));
-            InstructionRegisterOp2.SetValue(InstructionRegister.GetValue().Substring(11, 5));
-            InstructionRegisterOp3.SetValue(InstructionRegister.GetValue().Substring(16, 5));
+            SetIROperators(InstructionRegister.GetValue().Substring(0, 6));
             FeedControlUnit();
         }
+
+        private void SetIROperators(string opCode)
+        {
+            if (opCode.Contains('1'))
+            {
+                var operation = (OperationEnum) opCode.GetBitArrayFromString().GetIntFromBitArray();
+                if (operation == OperationEnum.J)
+                {
+                    InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(6, 26));
+                }
+                else
+                {
+                    CurrentInstructFormat = 'I';
+                    InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(6, 5));
+                    InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(11, 5));
+                    InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(16, 16));
+                }
+            }
+            else
+            {
+                CurrentInstructFormat = 'R';
+                InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(6, 5));
+                InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(11, 5));
+                InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(16, 5));
+            }
+        }
+
         public void FeedControlUnit()
         {
             ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetValue());

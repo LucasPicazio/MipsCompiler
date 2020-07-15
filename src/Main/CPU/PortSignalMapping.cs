@@ -40,9 +40,9 @@ namespace Main
                 { 8, _CPU.S3Register.SetValueIntoIBus},
                 { 10, _CPU.S4Register.SetValueIntoIBus},
                 { 12, _CPU.ACRegister.SetValueIntoIBus},
-                { 14, _CPU.InstructionRegisterOp1.SetValueIntoIBus},
-                { 16, _CPU.InstructionRegisterOp2.SetValueIntoIBus},
-                { 18, _CPU.InstructionRegisterOp3.SetValueIntoIBus},
+                { 14, _CPU.InstructionRegisterOpSource1.SetValueIntoIBus},
+                { 16, _CPU.InstructionRegisterOpSource2.SetValueIntoIBus},
+                { 18, _CPU.InstructionRegisterOpDestiny.SetValueIntoIBus},
                 #endregion
                 #region Barramento Externo
                 // Portas de leitura do barramento externo

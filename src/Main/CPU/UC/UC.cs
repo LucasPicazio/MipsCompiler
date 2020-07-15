@@ -15,6 +15,7 @@ namespace Main
         private CycleDictionary Firmware;
         private CyclePointer CAR;
         private Instruction CBR;
+        private Decoder InstructionDecoder;
         private string NextInstruction;
 
         public void Initialize()
@@ -25,6 +26,7 @@ namespace Main
             Cpu.Initialize();
             CAR = new CyclePointer(0, Firmware.Cycle[OperationEnum.FETCH], true);
             CBR = new Instruction();
+            InstructionDecoder = new Decoder(CBR, Cpu);
         }
 
         public void ReceiveInstructionRegister(string instructionRegister)
@@ -37,42 +39,7 @@ namespace Main
             View.HighLightLine(new Command { CharInit = 0, CharEnd = 8 });
             CheckForJumpFlags();
             GetNextFirmwareLine();
-            SendControlSignal();
-        }
-
-        private void SendControlSignal()
-        {
-            var instruct = CBR.ControlSignalInstruction;
-            if (CBR.DecodeRegister1 || CBR.DecodeRegister2 || CBR.DecodeRegister3)
-            {
-                SetControlToInstructionFormat(instruct);
-            }
-            Cpu.ReceiveControlSignal(instruct);
-        }
-
-        private void SetControlToInstructionFormat(string instruct)
-        {
-            switch (Cpu.CurrentInstructFormat)
-            {
-                // Register Format
-                case 1:
-                    SetRegisterFormat(instruct);
-                    break;
-                // Imediate Format
-                case 2:
-                    SetImediateFormat(instruct);
-                    break;
-            }
-        }
-
-        private void SetRegisterFormat(string instruct)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetImediateFormat(string instruct)
-        {
-            throw new NotImplementedException();
+            InstructionDecoder.SendControlSignal(CBR);
         }
 
         private void CheckForJumpFlags()
