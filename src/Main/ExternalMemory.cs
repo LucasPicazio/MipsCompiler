@@ -16,6 +16,7 @@ namespace Main
         public ExternalMemory()
         {
             ExternalBus = new BitArray(32);
+            MemoryAddress = new List<Command>();
         }
 
         public void ReceiveAssemblyProgram(List<Command> binaryAssembly)

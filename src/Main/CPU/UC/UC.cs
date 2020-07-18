@@ -90,7 +90,7 @@ namespace Main
 
         private OperationEnum DecodeOpCode()
         {
-            BitArray opCode = NextInstruction.Substring(28).GetBitArrayFromString();
+            BitArray opCode = NextInstruction.Substring(25, 3).GetBitArrayFromString();
             return (OperationEnum) opCode.GetIntFromBitArray();
         }
 

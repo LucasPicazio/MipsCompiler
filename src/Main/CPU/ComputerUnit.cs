@@ -28,17 +28,18 @@ namespace Main
         public readonly UC ControlUnit;
         public char CurrentInstructFormat;
         private PortSignalMapping PortMapping;
-        private readonly int InternalControlPortNumberLimit = 20;
-        private readonly int ExternalControlPortNumberLimit = 25;
+        private readonly int InternalControlPortNumberLimit = 19;
+        private readonly int ExternalControlPortNumberLimit = 24;
 
         public ComputerUnit(UC controlUnit)
         {
             ControlUnit = controlUnit;
-        }
-
-        public void Initialize()
-        {
+            Memory = new ExternalMemory();
+            PortMapping = new PortSignalMapping(this);
             InstructionRegister = new Register();
+            InstructionRegisterOpSource1 = new Register();
+            InstructionRegisterOpSource2 = new Register();
+            InstructionRegisterOpDestiny = new Register();
             MemoryAddressRegister = new Register();
             ProgramCounter = new Register();
             MemoryBufferRegister = new Register();
@@ -48,9 +49,13 @@ namespace Main
             S4Register = new Register();
             ULAXRegister = new Register();
             ACRegister = new Register();
-            Memory = new ExternalMemory();
-            PortMapping = new PortSignalMapping(this);
             ULA = new ArithmeticLogicUnit(this);
+        }
+
+        public void Initialize()
+        {
+            ProgramCounter.SetValue("00000000000000000000000000000000");
+            PortMapping.Initialize();
         }
 
         public void ReceiveControlSignal(string microInstruction)
@@ -65,8 +70,8 @@ namespace Main
 
         private void SendControlSignal(char[] instArray)
         {
-            ULA.ReceiveOpCode(instArray[ExternalControlPortNumberLimit..(ExternalControlPortNumberLimit+2)]);
-            Memory.ReceiveControlSignal((instArray[ExternalControlPortNumberLimit+3] - '0'), (instArray[ExternalControlPortNumberLimit+4] - '0'));
+            ULA.ReceiveOpCode(instArray[(ExternalControlPortNumberLimit+1)..(ExternalControlPortNumberLimit+4)]);
+            Memory.ReceiveControlSignal((instArray[ExternalControlPortNumberLimit+4] - '0'), (instArray[ExternalControlPortNumberLimit+5] - '0'));
         }
 
         private void SendPortSignal(char[] instArray)
@@ -83,15 +88,15 @@ namespace Main
         {
 
             //Write First
-            ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit, ExternalControlPortNumberLimit);
+            ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit+1, ExternalControlPortNumberLimit);
 
             //Read After
-            ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit+1, ExternalControlPortNumberLimit);
+            ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit+2, ExternalControlPortNumberLimit);
         }
 
         private void ReadOrWriteIntoBus(char[] instArray, int startingIndex, int endIndex)
         {
-            for (int i = startingIndex; i < endIndex; i += 2)
+            for (int i = startingIndex; i <= endIndex; i += 2)
             {
                 if (instArray[i] - '0' != 0 )
                 {
@@ -166,13 +171,13 @@ namespace Main
             int busWrittingIndex = -1;
             for (int i = 0; i <= InternalControlPortNumberLimit; i += 2)
             {
-                if (instArray[i] - '0' != 0 && busWrittingIndex == -1)
+                if (instArray[i] - '0' != 0)
                 {
+                    if (busWrittingIndex != -1)
+                    {
+                        return false;
+                    }
                     busWrittingIndex = i;
-                }
-                else
-                {
-                    return false;
                 }
             }
 
@@ -180,7 +185,7 @@ namespace Main
         }
         private bool CheckForExternalPortIndex(char[] instArray)
         {
-            if(instArray[22] + instArray[24] + instArray[25] > 1)
+            if( (instArray[20] - '0') + (instArray[22] - '0')+ (instArray[24] - '0') > 1)
             {
                 return false;
             }

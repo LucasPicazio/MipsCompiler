@@ -15,7 +15,7 @@ namespace Main.ULA
 
         public ArithmeticLogicUnit(ComputerUnit CPU)
         {
-            binaryRepresentationOfOne = "00000000001";
+            binaryRepresentationOfOne = "00000000000000000000000000000001";
             operationMapping = new OpCodeMapping(this);
             _CPU = CPU;
         }
