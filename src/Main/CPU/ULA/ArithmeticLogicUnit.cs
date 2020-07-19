@@ -103,7 +103,7 @@ namespace Main.ULA
         {
             SignalFlag = (result[0] == 1);
 
-            foreach (int i in result)
+            for (int i = 0; i < result.Length; i++)
             {
                 if(result[i] == 1)
                 {
