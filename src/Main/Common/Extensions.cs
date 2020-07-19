@@ -75,7 +75,7 @@ namespace Main
 
         public static string GetIntString(this string text)
         {
-            return text.GetBitArrayFromString().GetIntFromBitArray().ToString()
+            return text.GetBitArrayFromString().GetIntFromBitArray().ToString();
         }
     }
 }
