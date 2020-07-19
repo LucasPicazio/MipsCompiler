@@ -14,15 +14,17 @@ namespace Main.ULA
         private Tuple<int, int, int> mapInput;
         public bool ZeroFlag;
         public bool SignalFlag;
+        private Interface view;
 
-        public ArithmeticLogicUnit(ComputerUnit CPU)
+        public ArithmeticLogicUnit(ComputerUnit CPU, Interface view)
         {
             binaryRepresentationOfOne = "00000000000000000000000000000001";
             binaryRepresentationOfZero = "00000000000000000000000000000000";
             operationMapping = new OpCodeMapping(this);
             _CPU = CPU;
+          
+            this.view = view;
         }
-
 
         public void ReceiveOpCode(char[] value)
         {
@@ -46,6 +48,7 @@ namespace Main.ULA
             int[] result = GetSumResult(ComputerUnit.InternalBus, binaryRepresentationOfOne);
             UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
+            view.SetAC(result.GetStringFromIntArray());
         }
 
         public void Sum()
@@ -54,6 +57,8 @@ namespace Main.ULA
                                     :GetSumResult(ComputerUnit.InternalBus, _CPU.ULAXRegister.GetValue());
             UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
+            view.SetAC(result.GetStringFromIntArray());
+
         }
 
         public void Subtract()
@@ -62,6 +67,8 @@ namespace Main.ULA
             int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
             UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
+            view.SetAC(result.GetStringFromIntArray());
+
         }
 
         public void Compare()
@@ -69,7 +76,8 @@ namespace Main.ULA
             int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
             int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
             UpdateFlags(result);
-            _CPU.ACRegister.SetValue(SignalFlag ? binaryRepresentationOfOne : "00000000000000000000000000000000");
+            var xvalue = SignalFlag ? binaryRepresentationOfOne : "00000000000000000000000000000000";
+            _CPU.ACRegister.SetValue(xvalue);
         }
 
         public void OR()
@@ -87,6 +95,8 @@ namespace Main.ULA
                 }
             }
             _CPU.ACRegister.SetValue(result);
+            view.SetAC(result.GetStringFromIntArray());
+
         }
 
         public void UpdateFlags(int[] result)

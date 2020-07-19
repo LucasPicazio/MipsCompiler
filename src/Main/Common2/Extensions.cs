@@ -18,6 +18,7 @@ namespace Main
             return new BitArray(bools);
         }
 
+        //https://stackoverflow.com/questions/5283180/how-can-i-convert-bitarray-to-single-int
         public static int GetIntFromBitArray(this BitArray bitArray)
         {
             if (bitArray.Length > 32)
@@ -65,6 +66,16 @@ namespace Main
                 throw new IndexOutOfRangeException($"Erro no Trim. Valor maior que {length} bits");
             }
             
+        }
+
+        public static string GetStringFromIntArray(this int[] arr)
+        {
+            return string.Join("", arr);
+        }
+
+        public static string GetIntString(this string text)
+        {
+            return text.GetBitArrayFromString().GetIntFromBitArray().ToString()
         }
     }
 }

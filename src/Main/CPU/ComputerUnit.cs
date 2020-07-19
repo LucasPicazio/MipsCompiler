@@ -3,6 +3,7 @@ using Main.ULA;
 using System;
 using System.Collections;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Main
 {
@@ -28,10 +29,12 @@ namespace Main
         public readonly UC ControlUnit;
         public char CurrentInstructFormat;
         private PortSignalMapping PortMapping;
+        private Interface view;
         private readonly int InternalControlPortNumberLimit = 19;
         private readonly int ExternalControlPortNumberLimit = 24;
 
-        public ComputerUnit(UC controlUnit)
+   
+        public ComputerUnit(UC controlUnit, Interface view) 
         {
             ControlUnit = controlUnit;
             Memory = new ExternalMemory();
@@ -49,7 +52,8 @@ namespace Main
             S4Register = new Register("S4");
             ULAXRegister = new Register("X");
             ACRegister = new Register("AC");
-            ULA = new ArithmeticLogicUnit(this);
+            ULA = new ArithmeticLogicUnit(this,view);
+            this.view = view;
         }
 
         public void Initialize()
@@ -127,6 +131,7 @@ namespace Main
                 {
                     CurrentInstructFormat = 'I';
                     InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(6, 5));
+                    
                     InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(11, 5));
                     InstructionRegisterOpSource2.SetValue("0000000000000000"+ InstructionRegister.GetValue().Substring(16, 16));
                 }
@@ -148,6 +153,7 @@ namespace Main
         public void GetDataFromExternalBus()
         {
             MemoryBufferRegister.SetValue(ExternalMemory.ExternalBus);
+            view.SetMBR(ExternalMemory.ExternalBus.GetIntFromBitArray().ToString());
         }
 
         public void SetDataIntoExternalBus()

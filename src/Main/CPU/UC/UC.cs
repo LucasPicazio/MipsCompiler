@@ -10,7 +10,7 @@ namespace Main
     public class UC
     {
         // SeqLogic > CAR (Address) > firmware > CBR (Command) > SeqLogic
-        public IForm View { get; internal set; }
+        public Interface View { get; internal set; }
         private ComputerUnit Cpu { get; set; }
         private CycleDictionary Firmware;
         private CyclePointer CAR;
@@ -22,7 +22,7 @@ namespace Main
         {
             View.OnNext += View_OnNext;
             Firmware = new CycleDictionary();
-            Cpu = new ComputerUnit(this);
+            Cpu = new ComputerUnit(this,View);
             Cpu.Initialize();
             CAR = new CyclePointer(0, Firmware.Cycle[OperationEnum.FETCH], true);
             CBR = new Instruction();
@@ -36,11 +36,26 @@ namespace Main
 
         private void View_OnNext(object sender, EventArgs e)
         {
-            View.HighLightLine(new Command { CharInit = 0, CharEnd = 8 });
-            View.SetRegi1("asd");
             CheckForJumpFlags();
             GetNextFirmwareLine();
             InstructionDecoder.SendControlSignal(CBR);
+            SendValuesToFront();
+        }
+
+        private void SendValuesToFront()
+        {
+            View.SetAC(Cpu.ACRegister.GetValue().GetIntString());
+            View.SetIR(Cpu.InstructionRegister.GetValue().GetIntString());
+            View.SetMAR(Cpu.MemoryAddressRegister.GetValue().GetIntString());
+            View.SetPC(Cpu.ProgramCounter.GetValue().GetIntString());
+            View.SetMBR(Cpu.MemoryBufferRegister.GetValue().GetIntString());
+            View.SetX(Cpu.ULAXRegister.GetValue().GetIntString());
+            View.SetS1(Cpu.S1Register.GetValue().GetIntString());
+            View.SetS2(Cpu.S2Register.GetValue().GetIntString());
+            View.SetS3(Cpu.S3Register.GetValue().GetIntString());
+            View.SetS4(Cpu.S4Register.GetValue().GetIntString());
+            View.SetSignalFlag(Cpu.ULA.SignalFlag.ToString());
+            View.SetZeroFlag(Cpu.ULA.ZeroFlag.ToString());
         }
 
         private void CheckForJumpFlags()

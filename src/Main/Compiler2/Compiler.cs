@@ -8,7 +8,7 @@ namespace Main
 {
     class Compiler
     {
-        public IForm View { get; internal set; }
+        public Interface View { get; internal set; }
         public ExternalMemory Memory { get; internal set; }
 
         internal void Initialize()
