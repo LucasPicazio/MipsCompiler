@@ -37,6 +37,7 @@ namespace Main
         private void View_OnNext(object sender, EventArgs e)
         {
             View.HighLightLine(new Command { CharInit = 0, CharEnd = 8 });
+            View.SetRegi1("asd");
             CheckForJumpFlags();
             GetNextFirmwareLine();
             InstructionDecoder.SendControlSignal(CBR);
@@ -53,9 +54,10 @@ namespace Main
                 (CBR.JumpIfLessThan && Cpu.ULA.SignalFlag) || 
                 (CBR.JumpIfDifferent && !Cpu.ULA.ZeroFlag) )
             {
+                CBR.ResetFlags();
                 return;
             }
-
+            CBR.ResetFlags();
             GetNextCycle();
 
         }
@@ -84,8 +86,8 @@ namespace Main
                 CAR.CurrentCycle = Firmware.Cycle[op];
             }
 
+            CAR.IsEndOfCycle = false;
             CAR.Clock = 0;
-            CBR.ResetFlags();
         }
 
         private OperationEnum DecodeOpCode()

@@ -44,6 +44,7 @@ namespace Main
                 { 16, Cpu.InstructionRegisterOpSource2.SetValueIntoIBus},
                 { 18, Cpu.InstructionRegisterOpDestiny.SetValueIntoIBus},
                 #endregion
+
                 #region Barramento Externo
                 // Portas de leitura do barramento externo
                 { 21, Cpu.GetDataFromExternalBus},

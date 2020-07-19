@@ -14,5 +14,6 @@ namespace Main.Model
         S2 = 6, 
         S3 = 8,
         S4 = 10,
+        zero = 36
     }
 }

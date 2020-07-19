@@ -45,7 +45,7 @@ namespace Main.CPU.UC
             if (CBR.DecodeRegisterSource1)
             {
                 var firstSourceOperator = Cpu.InstructionRegisterOpSource1.GetValue().GetBitArrayFromString().GetIntFromBitArray();
-                if (firstSourceOperator >= 4 && firstSourceOperator <= 10)
+                if (firstSourceOperator >= 4 && firstSourceOperator <= 10 || firstSourceOperator == 36)
                 {
                     instruct[firstSourceOperator] = '1';
                 }
@@ -53,7 +53,7 @@ namespace Main.CPU.UC
             if (CBR.DecodeRegisterSource2)
             {
                 var secondSourceOperator = Cpu.InstructionRegisterOpSource2.GetValue().GetBitArrayFromString().GetIntFromBitArray();
-                if (secondSourceOperator >= 4 && secondSourceOperator <= 10)
+                if ((secondSourceOperator >= 4 && secondSourceOperator <= 10) || secondSourceOperator == 36)
                 {
                     instruct[secondSourceOperator] = '1';
                 }

@@ -89,7 +89,7 @@ namespace Main
             var result = new BitArray(32);
             if (Int16.TryParse(parts[2], out Int16 resultParse))// Menor que 16 bits
             {
-                return RegisterFormat(OperationEnum.ADDI, new List<string> { "ADDI", parts[1], "$zero", resultParse.ToString() });
+                return RegisterFormat(OperationEnum.ADD, new List<string> { "ADD", parts[1], "$zero", resultParse.ToString() });
             }
             else if (Int32.TryParse(parts[2], out Int32 resultParse32))
             {

@@ -36,25 +36,24 @@ namespace Main
             ControlUnit = controlUnit;
             Memory = new ExternalMemory();
             PortMapping = new PortSignalMapping(this);
-            InstructionRegister = new Register();
-            InstructionRegisterOpSource1 = new Register();
-            InstructionRegisterOpSource2 = new Register();
-            InstructionRegisterOpDestiny = new Register();
-            MemoryAddressRegister = new Register();
-            ProgramCounter = new Register();
-            MemoryBufferRegister = new Register();
-            S1Register = new Register();
-            S2Register = new Register();
-            S3Register = new Register();
-            S4Register = new Register();
-            ULAXRegister = new Register();
-            ACRegister = new Register();
+            InstructionRegister = new Register("IR");
+            InstructionRegisterOpSource1 = new Register("IR OP1");
+            InstructionRegisterOpSource2 = new Register("IR OP2");
+            InstructionRegisterOpDestiny = new Register("IR OP3");
+            MemoryAddressRegister = new Register("MAR");
+            ProgramCounter = new Register("PC");
+            MemoryBufferRegister = new Register("MBR");
+            S1Register = new Register("S1");
+            S2Register = new Register("S2");
+            S3Register = new Register("S3");
+            S4Register = new Register("S4");
+            ULAXRegister = new Register("X");
+            ACRegister = new Register("AC");
             ULA = new ArithmeticLogicUnit(this);
         }
 
         public void Initialize()
         {
-            ProgramCounter.SetValue("00000000000000000000000000000000");
             PortMapping.Initialize();
         }
 
@@ -71,6 +70,7 @@ namespace Main
         private void SendControlSignal(char[] instArray)
         {
             ULA.ReceiveOpCode(instArray[(ExternalControlPortNumberLimit+1)..(ExternalControlPortNumberLimit+4)]);
+            ULA.UseZeroReg(instArray[instArray.Length-1]);
             Memory.ReceiveControlSignal((instArray[ExternalControlPortNumberLimit+4] - '0'), (instArray[ExternalControlPortNumberLimit+5] - '0'));
         }
 
@@ -121,22 +121,22 @@ namespace Main
                 var operation = (OperationEnum) opCode.GetBitArrayFromString().GetIntFromBitArray();
                 if (operation == OperationEnum.J)
                 {
-                    InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(6, 26));
+                    InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(6, 26));
                 }
                 else
                 {
                     CurrentInstructFormat = 'I';
-                    InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(6, 5));
-                    InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(11, 5));
-                    InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(16, 16));
+                    InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(6, 5));
+                    InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(11, 5));
+                    InstructionRegisterOpSource2.SetValue("0000000000000000"+ InstructionRegister.GetValue().Substring(16, 16));
                 }
             }
             else
             {
                 CurrentInstructFormat = 'R';
-                InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(6, 5));
-                InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(11, 5));
-                InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(16, 5));
+                InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(6, 5));
+                InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(11, 5));
+                InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(16, 5));
             }
         }
 
@@ -147,7 +147,7 @@ namespace Main
 
         public void GetDataFromExternalBus()
         {
-            MemoryBufferRegister.SetValue(ExternalMemory.ExternalBus.ToString());
+            MemoryBufferRegister.SetValue(ExternalMemory.ExternalBus);
         }
 
         public void SetDataIntoExternalBus()

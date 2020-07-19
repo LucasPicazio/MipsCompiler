@@ -5,7 +5,9 @@ namespace Main.ULA
     public class ArithmeticLogicUnit
     {
         private readonly string binaryRepresentationOfOne;
+        private readonly string binaryRepresentationOfZero;
         private string opCode;
+        private bool UseZero;
         private readonly OpCodeMapping operationMapping;
         private readonly ComputerUnit _CPU;
         private Tuple<int, int> mapOutput;
@@ -16,13 +18,20 @@ namespace Main.ULA
         public ArithmeticLogicUnit(ComputerUnit CPU)
         {
             binaryRepresentationOfOne = "00000000000000000000000000000001";
+            binaryRepresentationOfZero = "00000000000000000000000000000000";
             operationMapping = new OpCodeMapping(this);
             _CPU = CPU;
         }
 
+
         public void ReceiveOpCode(char[] value)
         {
             opCode = new string(value);
+        }
+
+        public void UseZeroReg(char v)
+        {
+            UseZero = (v == 1);
         }
 
         public void GetValueFromIBus()
@@ -41,7 +50,8 @@ namespace Main.ULA
 
         public void Sum()
         {
-            int[] result = GetSumResult(ComputerUnit.InternalBus, _CPU.ULAXRegister.GetValue());
+            int[] result = UseZero ? GetSumResult(ComputerUnit.InternalBus, binaryRepresentationOfZero)
+                                    :GetSumResult(ComputerUnit.InternalBus, _CPU.ULAXRegister.GetValue());
             UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
         }
@@ -54,21 +64,44 @@ namespace Main.ULA
             _CPU.ACRegister.SetValue(result);
         }
 
+        public void Compare()
+        {
+            int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
+            int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
+            UpdateFlags(result);
+            _CPU.ACRegister.SetValue(SignalFlag ? binaryRepresentationOfOne : "00000000000000000000000000000000");
+        }
+
+        public void OR()
+        {
+
+            int[] firstOp = GetIntArrayFromString(ComputerUnit.InternalBus);
+            int[] secondOP = GetIntArrayFromString(_CPU.ULAXRegister.GetValue());
+            int[] result = new int[firstOp.Length];
+
+            for (int i = 0; i < firstOp.Length; i++)
+            {
+                if(firstOp[i] + secondOP[i] >= 1)
+                {
+                    result[i] = 1;
+                }
+            }
+            _CPU.ACRegister.SetValue(result);
+        }
+
         public void UpdateFlags(int[] result)
         {
             SignalFlag = (result[0] == 1);
 
             foreach (int i in result)
             {
-                if (!ZeroFlag)
+                if(result[i] == 1)
                 {
-                    ZeroFlag = (result[i] == 1);
-                }
-                else
-                {
+                    ZeroFlag = false;
                     return;
                 }
             }
+            ZeroFlag = true;
         }
 
         private int[] GetSumResult(string firtOp, string secondOp)
@@ -95,11 +128,12 @@ namespace Main.ULA
             return result;
         }
 
+
         private int[] GetComplementOfTwo(string value)
         {
             int[] valueIntArray = GetIntArrayFromString(value);
             
-            for(int i = 1; i < valueIntArray.Length; i++)
+            for(int i = 0; i < valueIntArray.Length; i++)
             {
                 if(valueIntArray[i] == 0)
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Text;
 
 namespace Main
 {
@@ -32,6 +33,17 @@ namespace Main
             return new BitArray(str.Select(c => c == '1').ToArray());
         }
 
+        public static string GetStringFromBitArray(this BitArray input)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var bit in input)
+            {
+                if ((bool)bit) sb.Append("1");
+                else sb.Append("0");
+            }
+            return sb.ToString();
+        }
 
         ///<summary>
         /// Trim BitArray to specified length

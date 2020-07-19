@@ -10,7 +10,7 @@ namespace Main.CPU
         public int Clock { get; set; }
         public string[] CurrentCycle { get; set; }
         public OperationEnum CurrentCycleEnum { get; set; }
-        public bool IsEndOfCycle { get; private set; }
+        public bool IsEndOfCycle { get; set; }
         public bool IsFetchCycle { get; private set; }
         public CyclePointer(int address, string[] cycle, bool isFetchCycle)
         {
