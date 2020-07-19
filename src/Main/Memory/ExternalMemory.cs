@@ -8,8 +8,8 @@ namespace Main
     public class ExternalMemory
     {
         public static BitArray ExternalBus { get; set; }
-        private static List<Command> MemoryAddress { get; set; }
-        private int _targetAddress { get; set; }
+        public static List<Command> MemoryAddress { get; set; }
+        public static int _targetAddress { get; set; }
         private int ReadSignal { get; set; }
         private int WriteSignal { get; set; }
 
@@ -63,6 +63,14 @@ namespace Main
         private void GetAddressValueFromBus()
         {
             _targetAddress = ExternalBus.GetIntFromBitArray();
+        }
+
+        public static Command GetActualCommand()
+        {
+            if (_targetAddress >= 0)
+                return MemoryAddress[_targetAddress];
+            else
+                return default;
         }
 
     }

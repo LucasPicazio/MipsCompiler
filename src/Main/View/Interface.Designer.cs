@@ -68,6 +68,7 @@
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(92, 9);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -87,6 +88,7 @@
             // 
             this.tbIR.Location = new System.Drawing.Point(12, 337);
             this.tbIR.Name = "tbIR";
+            this.tbIR.ReadOnly = true;
             this.tbIR.Size = new System.Drawing.Size(100, 23);
             this.tbIR.TabIndex = 3;
             // 
@@ -103,6 +105,7 @@
             // 
             this.tbMAR.Location = new System.Drawing.Point(136, 337);
             this.tbMAR.Name = "tbMAR";
+            this.tbMAR.ReadOnly = true;
             this.tbMAR.Size = new System.Drawing.Size(100, 23);
             this.tbMAR.TabIndex = 3;
             // 
@@ -119,6 +122,7 @@
             // 
             this.tbPC.Location = new System.Drawing.Point(258, 337);
             this.tbPC.Name = "tbPC";
+            this.tbPC.ReadOnly = true;
             this.tbPC.Size = new System.Drawing.Size(100, 23);
             this.tbPC.TabIndex = 3;
             // 
@@ -135,6 +139,7 @@
             // 
             this.tbMBR.Location = new System.Drawing.Point(382, 337);
             this.tbMBR.Name = "tbMBR";
+            this.tbMBR.ReadOnly = true;
             this.tbMBR.Size = new System.Drawing.Size(100, 23);
             this.tbMBR.TabIndex = 3;
             // 
@@ -151,6 +156,7 @@
             // 
             this.tbX.Location = new System.Drawing.Point(506, 337);
             this.tbX.Name = "tbX";
+            this.tbX.ReadOnly = true;
             this.tbX.Size = new System.Drawing.Size(100, 23);
             this.tbX.TabIndex = 3;
             // 
@@ -167,6 +173,7 @@
             // 
             this.tbS1.Location = new System.Drawing.Point(12, 390);
             this.tbS1.Name = "tbS1";
+            this.tbS1.ReadOnly = true;
             this.tbS1.Size = new System.Drawing.Size(100, 23);
             this.tbS1.TabIndex = 3;
             // 
@@ -183,6 +190,7 @@
             // 
             this.tbS2.Location = new System.Drawing.Point(136, 390);
             this.tbS2.Name = "tbS2";
+            this.tbS2.ReadOnly = true;
             this.tbS2.Size = new System.Drawing.Size(100, 23);
             this.tbS2.TabIndex = 3;
             // 
@@ -199,6 +207,7 @@
             // 
             this.tbS3.Location = new System.Drawing.Point(258, 390);
             this.tbS3.Name = "tbS3";
+            this.tbS3.ReadOnly = true;
             this.tbS3.Size = new System.Drawing.Size(100, 23);
             this.tbS3.TabIndex = 3;
             // 
@@ -215,6 +224,7 @@
             // 
             this.tbS4.Location = new System.Drawing.Point(382, 390);
             this.tbS4.Name = "tbS4";
+            this.tbS4.ReadOnly = true;
             this.tbS4.Size = new System.Drawing.Size(100, 23);
             this.tbS4.TabIndex = 3;
             // 
@@ -240,6 +250,7 @@
             // 
             this.tbAc.Location = new System.Drawing.Point(506, 390);
             this.tbAc.Name = "tbAc";
+            this.tbAc.ReadOnly = true;
             this.tbAc.Size = new System.Drawing.Size(100, 23);
             this.tbAc.TabIndex = 3;
             // 
@@ -256,6 +267,7 @@
             // 
             this.tbZeroFlag.Location = new System.Drawing.Point(12, 445);
             this.tbZeroFlag.Name = "tbZeroFlag";
+            this.tbZeroFlag.ReadOnly = true;
             this.tbZeroFlag.Size = new System.Drawing.Size(100, 23);
             this.tbZeroFlag.TabIndex = 3;
             // 
@@ -272,6 +284,7 @@
             // 
             this.tbSignalFlag.Location = new System.Drawing.Point(136, 445);
             this.tbSignalFlag.Name = "tbSignalFlag";
+            this.tbSignalFlag.ReadOnly = true;
             this.tbSignalFlag.Size = new System.Drawing.Size(100, 23);
             this.tbSignalFlag.TabIndex = 3;
             // 

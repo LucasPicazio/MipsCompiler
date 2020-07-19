@@ -78,6 +78,7 @@ namespace Main.ULA
             UpdateFlags(result);
             var xvalue = SignalFlag ? binaryRepresentationOfOne : "00000000000000000000000000000000";
             _CPU.ACRegister.SetValue(xvalue);
+            view.SetAC(xvalue);
         }
 
         public void OR()

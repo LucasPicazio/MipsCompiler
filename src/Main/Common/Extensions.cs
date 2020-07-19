@@ -43,7 +43,7 @@ namespace Main
                 if ((bool)bit) sb.Append("1");
                 else sb.Append("0");
             }
-            return sb.ToString();
+            return String.Concat(sb.ToString().Reverse());
         }
 
         ///<summary>
@@ -70,7 +70,7 @@ namespace Main
 
         public static string GetStringFromIntArray(this int[] arr)
         {
-            return string.Join("", arr);
+            return string.Concat(string.Join("", arr).Reverse());
         }
 
         public static string GetIntString(this string text)

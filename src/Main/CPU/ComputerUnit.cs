@@ -63,43 +63,56 @@ namespace Main
 
         public void ReceiveControlSignal(string microInstruction)
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             char[] instArray = microInstruction.ToCharArray();
             if (InstructionIsValid(instArray))
             {
                 SendControlSignal(instArray);
                 SendPortSignal(instArray);
             }
+
         }
 
         private void SendControlSignal(char[] instArray)
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             ULA.ReceiveOpCode(instArray[(ExternalControlPortNumberLimit+1)..(ExternalControlPortNumberLimit+4)]);
             ULA.UseZeroReg(instArray[instArray.Length-1]);
             Memory.ReceiveControlSignal((instArray[ExternalControlPortNumberLimit+4] - '0'), (instArray[ExternalControlPortNumberLimit+5] - '0'));
+
         }
 
         private void SendPortSignal(char[] instArray)
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             //Write First
             ReadOrWriteIntoBus(instArray, 0, InternalControlPortNumberLimit);
             //Read After
             ReadOrWriteIntoBus(instArray, 1, InternalControlPortNumberLimit);
 
             ReadAndWriteIntoExternalBus(instArray);
+
         }
 
         private void ReadAndWriteIntoExternalBus(char[] instArray)
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
 
             //Write First
             ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit+1, ExternalControlPortNumberLimit);
 
             //Read After
             ReadOrWriteIntoBus(instArray, InternalControlPortNumberLimit+2, ExternalControlPortNumberLimit);
+
         }
 
         private void ReadOrWriteIntoBus(char[] instArray, int startingIndex, int endIndex)
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             for (int i = startingIndex; i <= endIndex; i += 2)
             {
                 if (instArray[i] - '0' != 0 )
@@ -107,6 +120,7 @@ namespace Main
                     PortMapping.delegateRegisterMapping[i]();
                 }
             }
+
         }
 
 
@@ -116,6 +130,8 @@ namespace Main
             InstructionRegister.GetValueFromIBus();
             SetIROperators(InstructionRegister.GetValue().Substring(0, 6));
             FeedControlUnit();
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
         }
 
         private void SetIROperators(string opCode)
@@ -143,27 +159,41 @@ namespace Main
                 InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(11, 5));
                 InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(16, 5));
             }
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
         }
 
         public void FeedControlUnit()
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetValue());
+
         }
 
         public void GetDataFromExternalBus()
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             MemoryBufferRegister.SetValue(ExternalMemory.ExternalBus);
             view.SetMBR(ExternalMemory.ExternalBus.GetIntFromBitArray().ToString());
+
         }
 
         public void SetDataIntoExternalBus()
         {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             ExternalMemory.ExternalBus = MemoryBufferRegister.GetValue().GetBitArrayFromString();
+
         }
 
         public void SetAddressIntoExternalBus()
-        { 
+        {
+            view.HighLightLine(ExternalMemory.GetActualCommand());
+
             ExternalMemory.ExternalBus = MemoryAddressRegister.GetValue().GetBitArrayFromString();
+
         }
 
         private bool InstructionIsValid(char[] instArray)

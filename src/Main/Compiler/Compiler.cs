@@ -22,6 +22,8 @@ namespace Main
             var ass = View.Assembly;
             var result = MipsToBinary(ass);
             Memory.ReceiveAssemblyProgram(result);
+            View.HighLightLine(ass[0]);
+            View.EnableNext();
         }
 
         private List<Command> MipsToBinary(List<Command> ass)

@@ -61,8 +61,9 @@ namespace Main
 
         public void HighLightLine(Command command)
         {
-            richTextBox1.SelectionColor = Color.Red;
-            richTextBox1.Select(command.CharInit, command.CharEnd);
+            richTextBox1.SelectionBackColor = Color.Yellow;
+            if(command != null)
+                richTextBox1.Select(command.CharInit, command.CharEnd);
         }
 
      
@@ -119,6 +120,10 @@ namespace Main
         public void ShowMessage(string message)
         {
             MessageBox.Show(message);
+        }
+        public void EnableNext()
+        {
+            button2.Enabled = true;
         }
     }
 }
