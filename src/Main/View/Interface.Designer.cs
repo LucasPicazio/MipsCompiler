@@ -35,14 +35,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbMAR = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.tbPC = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.tbMBR = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.tbX = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.tbS1 = new System.Windows.Forms.Label();
+            this.tbPC = new System.Windows.Forms.TextBox();
+            this.lbPC = new System.Windows.Forms.Label();
+            this.tbMBR = new System.Windows.Forms.TextBox();
+            this.lbMBR = new System.Windows.Forms.Label();
+            this.tbX = new System.Windows.Forms.TextBox();
+            this.lbX = new System.Windows.Forms.Label();
+            this.tbS1 = new System.Windows.Forms.TextBox();
+            this.lbS1 = new System.Windows.Forms.Label();
             this.tbS2 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tbS3 = new System.Windows.Forms.TextBox();
@@ -115,69 +115,69 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Mar";
             // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(258, 337);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 23);
-            this.textBox3.TabIndex = 3;
-            // 
             // tbPC
             // 
-            this.tbPC.AutoSize = true;
-            this.tbPC.Location = new System.Drawing.Point(258, 319);
+            this.tbPC.Location = new System.Drawing.Point(258, 337);
             this.tbPC.Name = "tbPC";
-            this.tbPC.Size = new System.Drawing.Size(22, 15);
-            this.tbPC.TabIndex = 4;
-            this.tbPC.Text = "PC";
+            this.tbPC.Size = new System.Drawing.Size(100, 23);
+            this.tbPC.TabIndex = 3;
             // 
-            // textBox4
+            // lbPC
             // 
-            this.textBox4.Location = new System.Drawing.Point(382, 337);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 23);
-            this.textBox4.TabIndex = 3;
+            this.lbPC.AutoSize = true;
+            this.lbPC.Location = new System.Drawing.Point(258, 319);
+            this.lbPC.Name = "lbPC";
+            this.lbPC.Size = new System.Drawing.Size(22, 15);
+            this.lbPC.TabIndex = 4;
+            this.lbPC.Text = "PC";
             // 
             // tbMBR
             // 
-            this.tbMBR.AutoSize = true;
-            this.tbMBR.Location = new System.Drawing.Point(382, 319);
+            this.tbMBR.Location = new System.Drawing.Point(382, 337);
             this.tbMBR.Name = "tbMBR";
-            this.tbMBR.Size = new System.Drawing.Size(32, 15);
-            this.tbMBR.TabIndex = 4;
-            this.tbMBR.Text = "MBR";
+            this.tbMBR.Size = new System.Drawing.Size(100, 23);
+            this.tbMBR.TabIndex = 3;
             // 
-            // textBox5
+            // lbMBR
             // 
-            this.textBox5.Location = new System.Drawing.Point(506, 337);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 23);
-            this.textBox5.TabIndex = 3;
+            this.lbMBR.AutoSize = true;
+            this.lbMBR.Location = new System.Drawing.Point(382, 319);
+            this.lbMBR.Name = "lbMBR";
+            this.lbMBR.Size = new System.Drawing.Size(32, 15);
+            this.lbMBR.TabIndex = 4;
+            this.lbMBR.Text = "MBR";
             // 
             // tbX
             // 
-            this.tbX.AutoSize = true;
-            this.tbX.Location = new System.Drawing.Point(506, 319);
+            this.tbX.Location = new System.Drawing.Point(506, 337);
             this.tbX.Name = "tbX";
-            this.tbX.Size = new System.Drawing.Size(14, 15);
-            this.tbX.TabIndex = 4;
-            this.tbX.Text = "X";
+            this.tbX.Size = new System.Drawing.Size(100, 23);
+            this.tbX.TabIndex = 3;
             // 
-            // textBox6
+            // lbX
             // 
-            this.textBox6.Location = new System.Drawing.Point(12, 390);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 23);
-            this.textBox6.TabIndex = 3;
+            this.lbX.AutoSize = true;
+            this.lbX.Location = new System.Drawing.Point(506, 319);
+            this.lbX.Name = "lbX";
+            this.lbX.Size = new System.Drawing.Size(14, 15);
+            this.lbX.TabIndex = 4;
+            this.lbX.Text = "X";
             // 
             // tbS1
             // 
-            this.tbS1.AutoSize = true;
-            this.tbS1.Location = new System.Drawing.Point(12, 372);
+            this.tbS1.Location = new System.Drawing.Point(12, 390);
             this.tbS1.Name = "tbS1";
-            this.tbS1.Size = new System.Drawing.Size(19, 15);
-            this.tbS1.TabIndex = 4;
-            this.tbS1.Text = "S1";
+            this.tbS1.Size = new System.Drawing.Size(100, 23);
+            this.tbS1.TabIndex = 3;
+            // 
+            // lbS1
+            // 
+            this.lbS1.AutoSize = true;
+            this.lbS1.Location = new System.Drawing.Point(12, 372);
+            this.lbS1.Name = "lbS1";
+            this.lbS1.Size = new System.Drawing.Size(19, 15);
+            this.lbS1.TabIndex = 4;
+            this.lbS1.Text = "S1";
             // 
             // tbS2
             // 
@@ -292,14 +292,14 @@
             this.Controls.Add(this.tbS3);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.tbS2);
+            this.Controls.Add(this.lbS1);
             this.Controls.Add(this.tbS1);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.lbX);
             this.Controls.Add(this.tbX);
-            this.Controls.Add(this.textBox5);
+            this.Controls.Add(this.lbMBR);
             this.Controls.Add(this.tbMBR);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.lbPC);
             this.Controls.Add(this.tbPC);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbMAR);
             this.Controls.Add(this.label1);
@@ -323,14 +323,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbMAR;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label tbPC;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Label tbMBR;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label tbX;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Label tbS1;
+        private System.Windows.Forms.TextBox tbPC;
+        private System.Windows.Forms.Label lbPC;
+        private System.Windows.Forms.TextBox tbMBR;
+        private System.Windows.Forms.Label lbMBR;
+        private System.Windows.Forms.TextBox tbX;
+        private System.Windows.Forms.Label lbX;
+        private System.Windows.Forms.TextBox tbS1;
+        private System.Windows.Forms.Label lbS1;
         private System.Windows.Forms.TextBox tbS2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbS3;
