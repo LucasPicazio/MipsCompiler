@@ -149,7 +149,7 @@ namespace Main
                     InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(6, 5));
                     
                     InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(11, 5));
-                    InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(16, 16));
+                    InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(16, 16)+ "0000000000000000");
                 }
             }
             else
