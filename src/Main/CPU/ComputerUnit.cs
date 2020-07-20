@@ -149,7 +149,7 @@ namespace Main
                     InstructionRegisterOpDestiny.SetValue(InstructionRegister.GetValue().Substring(6, 5));
                     
                     InstructionRegisterOpSource1.SetValue(InstructionRegister.GetValue().Substring(11, 5));
-                    InstructionRegisterOpSource2.SetValue("0000000000000000"+ InstructionRegister.GetValue().Substring(16, 16));
+                    InstructionRegisterOpSource2.SetValue(InstructionRegister.GetValue().Substring(16, 16));
                 }
             }
             else
@@ -167,7 +167,7 @@ namespace Main
         {
             view.HighLightLine(ExternalMemory.GetActualCommand());
 
-            ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetReversedValue());
+            ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetValue());
 
         }
 
@@ -175,8 +175,6 @@ namespace Main
         {
             view.HighLightLine(ExternalMemory.GetActualCommand());
             MemoryBufferRegister.SetReversedValue(ExternalMemory.ExternalBus);
-            view.SetMBR(ExternalMemory.ExternalBus.GetIntFromBitArray().ToString());
-
         }
 
         public void SetDataIntoExternalBus()

@@ -50,10 +50,10 @@ namespace Main
 
         private void SendValuesToFront()
         {
-            View.SetAC(Cpu.ACRegister.GetValue().GetIntString());
+            View.SetAC(Cpu.ACRegister.GetReversedValue().GetIntString());
             View.SetIR(Cpu.InstructionRegister.GetValue());
             View.SetMAR(Cpu.MemoryAddressRegister.GetValue());
-            View.SetPC(Cpu.ProgramCounter.GetValue().GetIntString());
+            View.SetPC(Cpu.ProgramCounter.GetReversedValue().GetIntString());
             View.SetMBR(Cpu.MemoryBufferRegister.GetValue());
             View.SetX(Cpu.ULAXRegister.GetValue().GetIntString());
             View.SetS1(Cpu.S1Register.GetValue());
@@ -115,7 +115,10 @@ namespace Main
         private OperationEnum DecodeOpCode()
         {
             var temp = NextInstruction.Substring(0, 6).ToCharArray();
-            Array.Reverse(temp);
+            if (!NextInstruction.Substring(0, 6).Contains('1'))
+            {
+                temp = NextInstruction.Substring(26, 6).ToCharArray();
+            }
             BitArray opCode = new string(temp).GetBitArrayFromString();
             return (OperationEnum) opCode.GetIntFromBitArray();
         }

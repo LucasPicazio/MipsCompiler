@@ -88,6 +88,14 @@ namespace Main.CPU.UC
                     instruct[secondSourceOperator] = '1';
                 }
             }
+            if (CBR.DecodeRegisterDestiny)
+            {
+                var destinyOperator = Cpu.InstructionRegisterOpDestiny.GetValue().GetBitArrayFromString().GetIntFromBitArray();
+                if (destinyOperator >= 4 && destinyOperator <= 10)
+                {
+                    instruct[destinyOperator+1] = '1';
+                }
+            }
             CBR.SetControlSignalInstruction(instruct);
         }
     }

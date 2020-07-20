@@ -75,15 +75,7 @@ namespace Main
 
         public static string GetIntString(this string text)
         {
-            var temp = text.ToCharArray();
-            bool[] bits = new bool[temp.Length];
-            Array.Reverse(temp);
-            for(int i = 0; i < temp.Length; i++)
-            {
-                bits[i] = (temp[i] == '1');
-            }
-            var bitArray = new BitArray(bits);
-            return bitArray.GetIntFromBitArray().ToString();
+            return text.GetBitArrayFromString().GetIntFromBitArray().ToString();
         }
     }
 }
