@@ -66,11 +66,27 @@ namespace Main.ULA
 
         public void Compare()
         {
-            int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
-            int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
-            UpdateFlags(result);
-            var xvalue = SignalFlag ? binaryRepresentationOfOne : "00000000000000000000000000000000";
-            _CPU.ACRegister.SetValue(xvalue);
+            if (!_CPU.ULAXRegister.GetValue().Contains('1') && !ComputerUnit.InternalBus.Contains('1'))
+            {
+                SignalFlag = false;
+                ZeroFlag = true;
+                _CPU.ACRegister.SetValue(binaryRepresentationOfZero);
+            }
+            else {
+                int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
+                int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
+                UpdateFlags(result);
+                string finalRes;
+                if (SignalFlag)
+                {
+                    finalRes = binaryRepresentationOfOne;
+                }
+                else
+                {
+                    finalRes = binaryRepresentationOfZero;
+                }
+                _CPU.ACRegister.SetValue(finalRes);
+            }
         }
 
         public void OR()
