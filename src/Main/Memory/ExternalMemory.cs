@@ -54,9 +54,11 @@ namespace Main
 
         private void InsertDataValueIntoBus()
         {
-            if (_targetAddress >= MemoryAddress.Count)
+            if (_targetAddress == MemoryAddress.Count)
             {
+                EndOfProgram = true;
                 ExternalBus = new BitArray(32);
+                return;
             }
             ExternalBus = MemoryAddress[_targetAddress].Bits;
         }

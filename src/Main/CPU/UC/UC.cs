@@ -36,6 +36,12 @@ namespace Main
 
         private void View_OnNext(object sender, EventArgs e)
         {
+            if (ExternalMemory.EndOfProgram)
+            {
+                View.ShowMessage("Fim do Programa");
+                return;
+            }
+
             CheckForJumpFlags();
             GetNextFirmwareLine();
             InstructionDecoder.SendControlSignal(CBR);
