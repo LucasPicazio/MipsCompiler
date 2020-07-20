@@ -48,7 +48,6 @@ namespace Main.ULA
             int[] result = GetSumResult(ComputerUnit.InternalBus, binaryRepresentationOfOne);
             UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
-            view.SetAC(result.GetStringFromIntArray());
         }
 
         public void Sum()
