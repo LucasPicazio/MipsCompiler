@@ -45,15 +45,15 @@ namespace Main
         private void SendValuesToFront()
         {
             View.SetAC(Cpu.ACRegister.GetValue().GetIntString());
-            View.SetIR(Cpu.InstructionRegister.GetValue().GetIntString());
-            View.SetMAR(Cpu.MemoryAddressRegister.GetValue().GetIntString());
+            View.SetIR(Cpu.InstructionRegister.GetValue());
+            View.SetMAR(Cpu.MemoryAddressRegister.GetValue());
             View.SetPC(Cpu.ProgramCounter.GetValue().GetIntString());
-            View.SetMBR(Cpu.MemoryBufferRegister.GetValue().GetIntString());
+            View.SetMBR(Cpu.MemoryBufferRegister.GetValue());
             View.SetX(Cpu.ULAXRegister.GetValue().GetIntString());
-            View.SetS1(Cpu.S1Register.GetValue().GetIntString());
-            View.SetS2(Cpu.S2Register.GetValue().GetIntString());
-            View.SetS3(Cpu.S3Register.GetValue().GetIntString());
-            View.SetS4(Cpu.S4Register.GetValue().GetIntString());
+            View.SetS1(Cpu.S1Register.GetValue());
+            View.SetS2(Cpu.S2Register.GetValue());
+            View.SetS3(Cpu.S3Register.GetValue());
+            View.SetS4(Cpu.S4Register.GetValue());
             View.SetSignalFlag(Cpu.ULA.SignalFlag.ToString());
             View.SetZeroFlag(Cpu.ULA.ZeroFlag.ToString());
         }
@@ -62,6 +62,7 @@ namespace Main
         {
             if(!CBR.JumpIfZero && !CBR.JumpIfLessThan && !CBR.JumpIfDifferent)
             {
+                CBR.ResetFlags();
                 return;
             }
 
@@ -79,17 +80,17 @@ namespace Main
 
         private void GetNextFirmwareLine()
         {
-            var nextInstruction = CAR.AccessNextCycleLine();
-            CBR.SetControlSignalInstruction(nextInstruction);
-            if (CAR.IsEndOfCycle)
+            if (CAR.IsEndOfCycle && NextInstruction != null)
             {
                 GetNextCycle();
             }
+            var nextInstruction = CAR.AccessNextCycleLine();
+            CBR.SetControlSignalInstruction(nextInstruction);
         }
 
         private void GetNextCycle()
         {
-            if (!CAR.IsFetchCycle)
+            if (CAR.IsFetchCycle)
             {
                 CAR.CurrentCycleEnum = OperationEnum.FETCH;
                 CAR.CurrentCycle = Firmware.Cycle[OperationEnum.FETCH];
@@ -107,7 +108,9 @@ namespace Main
 
         private OperationEnum DecodeOpCode()
         {
-            BitArray opCode = NextInstruction.Substring(25, 3).GetBitArrayFromString();
+            var temp = NextInstruction.Substring(0, 6).ToCharArray();
+            Array.Reverse(temp);
+            BitArray opCode = new string(temp).GetBitArrayFromString();
             return (OperationEnum) opCode.GetIntFromBitArray();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 
 namespace Main
@@ -19,6 +20,13 @@ namespace Main
             return _value;
         }
 
+        public string GetReversedValue()
+        {
+            var temp = _value.ToCharArray();
+            Array.Reverse(temp);
+            return new string(temp);
+        }
+
         public void SetValue(string value)
         {
             _value = value;
@@ -29,9 +37,11 @@ namespace Main
             _value = string.Join("", value);
         }
 
-        public void SetValue(BitArray value)
+        public void SetReversedValue(BitArray value)
         {
-            _value = value.GetStringFromBitArray();
+            var temp = value.GetStringFromBitArray().ToCharArray();
+            Array.Reverse(temp);
+            _value = new string(temp);
         }
 
         public void GetValueFromIBus()

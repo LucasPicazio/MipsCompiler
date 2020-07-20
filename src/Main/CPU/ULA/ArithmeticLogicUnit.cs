@@ -14,7 +14,6 @@ namespace Main.ULA
         private Tuple<int, int, int> mapInput;
         public bool ZeroFlag;
         public bool SignalFlag;
-        private Interface view;
 
         public ArithmeticLogicUnit(ComputerUnit CPU, Interface view)
         {
@@ -23,7 +22,6 @@ namespace Main.ULA
             operationMapping = new OpCodeMapping(this);
             _CPU = CPU;
           
-            this.view = view;
         }
 
         public void ReceiveOpCode(char[] value)
@@ -56,8 +54,6 @@ namespace Main.ULA
                                     :GetSumResult(ComputerUnit.InternalBus, _CPU.ULAXRegister.GetValue());
             UpdateFlags(result);
             _CPU.ACRegister.SetValue(result);
-            view.SetAC(result.GetStringFromIntArray());
-
         }
 
         public void Subtract()
@@ -65,9 +61,7 @@ namespace Main.ULA
             int[] SecondOpValue = GetComplementOfTwo(_CPU.ULAXRegister.GetValue());
             int[] result = GetSumResult(ComputerUnit.InternalBus, string.Join("", SecondOpValue));
             UpdateFlags(result);
-            _CPU.ACRegister.SetValue(result);
-            view.SetAC(result.GetStringFromIntArray());
-
+            _CPU.ACRegister.SetValue(result);            
         }
 
         public void Compare()
@@ -77,7 +71,6 @@ namespace Main.ULA
             UpdateFlags(result);
             var xvalue = SignalFlag ? binaryRepresentationOfOne : "00000000000000000000000000000000";
             _CPU.ACRegister.SetValue(xvalue);
-            view.SetAC(xvalue);
         }
 
         public void OR()
@@ -95,8 +88,6 @@ namespace Main.ULA
                 }
             }
             _CPU.ACRegister.SetValue(result);
-            view.SetAC(result.GetStringFromIntArray());
-
         }
 
         public void UpdateFlags(int[] result)
@@ -117,7 +108,7 @@ namespace Main.ULA
         private int[] GetSumResult(string firtOp, string secondOp)
         {
             int[] firstOpArray = GetIntArrayFromString(firtOp);
-            int[] secondOpArray = GetIntArrayFromString(secondOp);
+            int[] secondOpArray = GetIntArrayFromString(secondOp);            
             mapOutput = Tuple.Create(0, 0);
 
             int[] result = new int[firstOpArray.Length];

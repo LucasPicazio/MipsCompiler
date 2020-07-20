@@ -17,6 +17,7 @@ namespace Main.CPU
             this.Clock = address;
             this.CurrentCycle = cycle;
             IsFetchCycle = isFetchCycle;
+            CurrentCycleEnum = OperationEnum.FETCH;
         }
 
         

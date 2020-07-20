@@ -167,15 +167,14 @@ namespace Main
         {
             view.HighLightLine(ExternalMemory.GetActualCommand());
 
-            ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetValue());
+            ControlUnit.ReceiveInstructionRegister(InstructionRegister.GetReversedValue());
 
         }
 
         public void GetDataFromExternalBus()
         {
             view.HighLightLine(ExternalMemory.GetActualCommand());
-
-            MemoryBufferRegister.SetValue(ExternalMemory.ExternalBus);
+            MemoryBufferRegister.SetReversedValue(ExternalMemory.ExternalBus);
             view.SetMBR(ExternalMemory.ExternalBus.GetIntFromBitArray().ToString());
 
         }
@@ -183,16 +182,18 @@ namespace Main
         public void SetDataIntoExternalBus()
         {
             view.HighLightLine(ExternalMemory.GetActualCommand());
-
-            ExternalMemory.ExternalBus = MemoryBufferRegister.GetValue().GetBitArrayFromString();
+            var temp = MemoryBufferRegister.GetValue().ToCharArray();
+            Array.Reverse(temp);
+            ExternalMemory.ExternalBus = new string(temp).GetBitArrayFromString();
 
         }
 
         public void SetAddressIntoExternalBus()
         {
             view.HighLightLine(ExternalMemory.GetActualCommand());
-
-            ExternalMemory.ExternalBus = MemoryAddressRegister.GetValue().GetBitArrayFromString();
+            var temp = MemoryAddressRegister.GetValue().ToCharArray();
+            Array.Reverse(temp);
+            ExternalMemory.ExternalBus = new string(temp).GetBitArrayFromString();
 
         }
 
