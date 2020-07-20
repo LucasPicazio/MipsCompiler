@@ -161,9 +161,9 @@ namespace Main
         private BitArray JumpFormat(OperationEnum operation, List<string> parts)
         {
             var result = new BitArray(32);
-            result = result.Append(new BitArray(new int[1] { (int)operation }));
+            result = result.Append(new BitArray(new int[1] { (int)operation }).Trim(6));
             if(Int32.TryParse(parts[1], out int refe))
-                result = result.Append(new BitArray(new int[1] { refe }));
+                result = result.Append(new BitArray(new int[1] { refe }).Trim(26));
             return result;
 
         }
@@ -171,18 +171,18 @@ namespace Main
         private BitArray ImediateFormat(OperationEnum operation, List<string> parts)
         {
             var result = new BitArray(32);
-            result = result.Append(new BitArray(new int[1] { (int)operation }));
+            result = result.Append(new BitArray(new int[1] { (int)operation }).Trim(6));
 
             var register1String = parts[1].Trim(new char[] { '$', ',' });
             if (Enum.TryParse(register1String, true, out RegisterEnum register))
-                result.Append(new BitArray(new int[1] { (int)register }));
+                result.Append(new BitArray(new int[1] { (int)register }).Trim(5));
 
             var register2String = parts[2].Trim(new char[] { '$', ',' });
             if (Enum.TryParse(register2String, true, out RegisterEnum register2))
-                result.Append(new BitArray(new int[1] { (int)register2 }));
+                result.Append(new BitArray(new int[1] { (int)register2 }).Trim(16));
 
             if (Int32.TryParse(parts[3], out int refe))
-                result = result.Append( new BitArray(new int[1] { refe }) );
+                result = result.Append( new BitArray(new int[1] { refe }).Trim(16) );
 
             return result;
         }
